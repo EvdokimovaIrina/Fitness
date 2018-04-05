@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>YourApp</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+<p>
+<h2> Добавление пробежки </h2>
+<p><input placeholder="Дата пробежки" type="date" id="date"></p>
+<p><input placeholder="Время пробежки" type="number" id="minutes"></p>
+<a id="addjogging" href="#">Добавить пробежку</a>
+<p>
+<h2> Удаление пробежки </h2>
+<p><input placeholder="Номер пробежки" type="number" id="joggingid"></p>
+<a id="deletejogging" href="#">Удалить пробежку</a>
+
+<p>
+<p>
+<h1> Список утренних пробежек </h1>
+
+<div id="container">
+    <div class="informationOnjogging">
+        <table class="table">
+            <tbody id="table_jogging">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+
+<script>
+    $(document).ready(showTable());
+
+
+    function showTable() {
+        $.ajax({
+            type: "GET",
+            url: "/jogginglist",
+            dataType: "json",
+            data: "",
+            success: function (data) {
+                var body = "<tbody>";
+
+                $.each(data["mainObject"], function (ktr, vtr) {
+                    body = body + "<tr>";
+                    $.each(vtr, function (ktd, vtd) {
+                        if (ktd == "dateJogging") {
+                            body = body + "<td>" + (new Date(vtd)) + "</td>";
+                        } else {
+                            body = body + "<td>" + vtd.toString() + "</td>";
+                        }
+                    })
+                    body = body + "</tr>";
+                })
+
+                body = body + "</tbody>";
+                $("#table_jogging").append(body);
+
+            },
+            function (xhr, status, error) {
+                alert(error);
+            }
+        });
+        //  return false;
+    }
+
+    $('#addjogging').click(function () {
+        if (!$("#date").val()) {
+            alert("Введите данные!");
+        } else {
+            $.ajax({
+                type: "POST",
+                url: '/jogginglist',
+                processData: false,
+                dataType: "json",
+                data: $.param({date: (new Date($("#date").val()).getTime()), minutes: $("#minutes").val()}),
+                success: function (html) {
+                    showTable();
+                }
+            });
+        }
+    });
+
+    $('#deletejogging').click(function () {
+        if (!$("#joggingid").val()) {
+            alert("Укажите id!");
+        } else {
+            $.ajax({
+                type: "DELETE",
+                url: '/jogginglist/'+$("#joggingid").val(),
+                success: function (html) {
+                    showTable();
+                }
+            });
+        }
+    });
+
+
+</script>
+
+</html>

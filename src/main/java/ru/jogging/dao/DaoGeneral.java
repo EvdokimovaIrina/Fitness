@@ -30,9 +30,7 @@ public abstract class DaoGeneral {
 
     public void deleteObgectFromBD(Class clazz, long id) throws Exception {
         Session session = sessionFactory.getCurrentSession();
-        Transaction tx = session.beginTransaction();
         session.delete(clazz.cast(session.load(clazz, id)));
-        tx.commit();
     }
 
     public SessionFactory getSessionFactory() {

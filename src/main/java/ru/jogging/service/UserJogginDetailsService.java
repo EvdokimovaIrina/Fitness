@@ -5,6 +5,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.jogging.dao.DaoUser;
 import ru.jogging.model.User;
 import ru.jogging.model.UserRoles;
@@ -20,6 +22,7 @@ public class UserJogginDetailsService implements UserDetailsService {
         this.daoUser = daoUser;
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         User user;
         try {

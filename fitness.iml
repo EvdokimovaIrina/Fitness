@@ -118,6 +118,5 @@
     <orderEntry type="library" scope="TEST" name="Maven: io.rest-assured:rest-assured-common:3.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.rest-assured:xml-path:3.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-web-reactive:unknown" level="project" />
   </component>
 </module>

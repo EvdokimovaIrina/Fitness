@@ -23,11 +23,9 @@ public class DaoUserImpl extends DaoGeneral implements DaoUser {
         Session session = super.getSessionFactory().getCurrentSession();
 
         try {
-            Transaction tx = session.beginTransaction();
             Query query = session.createQuery("from User  where login = :paramName");
             query.setParameter("paramName", name);
             List<User> userList = (List<User>) query.list();
-            tx.commit();
             if (userList.size() > 0) {
                 user = userList.get(0);
             } else {

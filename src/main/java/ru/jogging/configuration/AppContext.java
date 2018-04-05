@@ -5,6 +5,7 @@ import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.jogging.controller.returnTheResult.FactoryRestResult;
 import ru.jogging.controller.returnTheResult.FactoryRestResultImpl;
@@ -58,5 +59,13 @@ public class AppContext {
     public FactoryRestResult factoryRestResult(){
         FactoryRestResult factoryRestResult = new FactoryRestResultImpl();
         return factoryRestResult;
+    }
+
+    @Autowired
+    @Bean(name = "transactionManager")
+    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
+
+        return transactionManager;
     }
 }

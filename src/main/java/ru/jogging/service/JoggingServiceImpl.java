@@ -1,10 +1,12 @@
 package ru.jogging.service;
 
+import org.springframework.transaction.annotation.Propagation;
 import ru.jogging.dao.DaoJogging;
 import ru.jogging.exception.JoggingException;
 import ru.jogging.exception.UserException;
 import ru.jogging.model.MorningJogging;
 import ru.jogging.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ public class JoggingServiceImpl implements JoggingService {
         this.userService = userService;
     }
 
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor=Exception.class)
     public MorningJogging addJogging(Date dateJogging, double numberOfMinutes) throws JoggingException, UserException {
         MorningJogging jogging = new MorningJogging();
         jogging.setUser(userService.getCurrentUser());
@@ -31,6 +34,7 @@ public class JoggingServiceImpl implements JoggingService {
         return jogging;
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     public List<MorningJogging> getJoggingList() throws JoggingException, UserException {
         User user = userService.getCurrentUser();
         synchronized (this) {
@@ -38,6 +42,7 @@ public class JoggingServiceImpl implements JoggingService {
         }
     }
 
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor=Exception.class)
     public void deleteJogging(Long id) throws JoggingException, UserException {
         synchronized (this) {
             List<MorningJogging> joggingList = getJoggingList();

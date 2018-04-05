@@ -17,9 +17,7 @@ public class MorningJogging implements Serializable {
     public MorningJogging() {
     }
 
-   @Id
-//    @SequenceGenerator(name = "jpaSequence", sequenceName = "hibernate_sequence", allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jpaSequence")
+    @Id
     @GeneratedValue
     @Column(nullable = false)
     public Long getId() {

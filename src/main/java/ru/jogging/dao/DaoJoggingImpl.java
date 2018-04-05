@@ -45,11 +45,9 @@ public class DaoJoggingImpl extends DaoGeneral implements DaoJogging {
         try {
             Session session = super.getSessionFactory().getCurrentSession();
             List<MorningJogging> joggingList;
-            Transaction tx = session.beginTransaction();
             User user = (User) session.load(User.class, id);
             joggingList = user.getMorningJoggingList();
             joggingList.size();
-            tx.commit();
             return joggingList;
         } catch (Exception e) {
             throw new JoggingException("Ошибка получения списка пробежек ", e);
